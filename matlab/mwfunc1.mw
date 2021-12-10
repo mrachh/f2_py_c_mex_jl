@@ -1,0 +1,29 @@
+@function [err] = add_all()
+% This function tests the add all routine and returns the error
+
+a = 1.0;
+b = 1.1;
+c = 0.0;
+
+m = 100;
+iavec = randi(10,m,1);
+ibvec = randi(5,m,1);
+icvec = zeros(m,1);
+
+n = 20;
+zamat = rand(m,n) + 1j*rand(m,n);
+zbmat = rand(m,n) + 1j*rand(m,n);
+
+zcmat = complex(zeros(m,n));
+
+# FORTRAN all_add(double[1] a, double[1] b, inout double[1] c, int[1] m, int[m] iavec, int[m] ibvec, inout int[m] icvec, int[1] n, dcomplex[m,n] zamat, dcomplex[m,n] zbmat, inout dcomplex[m,n] zcmat);
+
+
+errz = norm(zamat + zbmat - zcmat)/norm(zcmat);
+errr = abs(a+b-c)/norm(c);
+erri = norm(iavec + ibvec - icvec)/norm(icvec);
+
+fprintf('error in real add=%d\n',errr);
+fprintf('error in integer add=%d\n',erri);
+fprintf('error in complex add=%d\n',errz);
+end
